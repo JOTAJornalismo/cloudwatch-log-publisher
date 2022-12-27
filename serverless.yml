@@ -7,9 +7,16 @@ provider:
   region: ${env:AWS_REGION}
   runtime: python3.9
 
+custom:
+  pythonRequirements:
+    dockerizePip: true
+
 functions:
   tag-publisher:
-    handler: handler.receive_log
+    handler: cloudwatch_log_publisher.handler.receive_log
+    environment:
+      SLACK_BOT_TOKEN: ${env:SLACK_BOT_TOKEN}
+      SLACK_CHANNEL: ${env:SLACK_CHANNEL}
 
 resources:
   Resources:
@@ -19,6 +26,9 @@ resources:
         FunctionName: !Sub "${AWS::StackName}-tag-publisher"
         Action: lambda:InvokeFunction
         Principal: logs.amazonaws.com
+
+plugins:
+   - serverless-python-requirements
 
 package:
   exclude:
