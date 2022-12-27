@@ -1,0 +1,26 @@
+service: cloudwatch-log-publisher
+frameworkVersion: '3'
+
+provider:
+  name: aws
+  stage: ${env:STAGE}
+  region: ${env:AWS_REGION}
+  runtime: python3.9
+
+functions:
+  tag-publisher:
+    handler: handler.receive_log
+
+resources:
+  Resources:
+    CWLambdaPermission:
+      Type: AWS::Lambda::Permission
+      Properties:
+        FunctionName: !Sub "${AWS::StackName}-tag-publisher"
+        Action: lambda:InvokeFunction
+        Principal: logs.amazonaws.com
+
+package:
+  exclude:
+    - node_modules/**
+    - .venv/**
