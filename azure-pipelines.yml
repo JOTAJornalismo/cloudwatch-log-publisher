@@ -1,0 +1,28 @@
+trigger:
+  - develop
+  - main
+
+pr: none
+
+pool:
+  vmImage: "ubuntu-latest"
+
+variables:
+  - ${{ if eq(variables['Build.SourceBranch'], 'refs/heads/main') }}:
+    - name: STAGE
+      value: prod
+    - group: production.cloudwatch-log-publisher
+  - ${{ else }}:
+    - name: STAGE
+      value: dev
+    - group: staging.cloudwatch-log-publisher
+
+stages:
+  - stage: deploy
+    displayName: "Deploy"
+    jobs:
+      - job: deploy
+        steps:
+          - script: |
+              npm install
+              $(npm bin)/serverless deploy
