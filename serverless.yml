@@ -22,6 +22,8 @@ resources:
   Resources:
     CWLambdaPermission:
       Type: AWS::Lambda::Permission
+      DependsOn:
+        - TagDashpublisherLambdaFunction
       Properties:
         FunctionName: !Sub "${AWS::StackName}-tag-publisher"
         Action: lambda:InvokeFunction
