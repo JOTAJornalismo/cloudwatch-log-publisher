@@ -1,4 +1,4 @@
-# CloudWatch Log Publisher
+# CloudWatch Log Publisher ![test status](https://github.com/lucasfacchini/cloudwatch-log-publisher/actions/workflows/test.yml/badge.svg)
 
 This is a Lambda function for receiving CloudWatch logs and sending them in a message format to popular chat apps.
 
