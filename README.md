@@ -9,11 +9,29 @@ This is a Lambda function for receiving CloudWatch logs and sending them in a me
 
 # Deploy
 
-```
+```bash
 cp sample.env .env
 npm install
 sls deploy
 ```
+
+# CloudWatch subscription filter
+
+In order to receive logs add a `AWS::Logs::SubscriptionFilter` in the desired Log Group.
+
+Example for receiving logs from a Lambda function in Serverless framework:
+```yml
+ErrorLogsSubscription:
+    Type: AWS::Logs::SubscriptionFilter
+    DependsOn:
+        - <lambda-function-cf-logical-name>
+    Properties:
+    DestinationArn: arn:aws:lambda:${self:provider.region}:${aws:accountId}:cloudwatch-log-publisher-${self:provider.stage}-log-publisher
+    FilterPattern: "${env:LOG_FILTER_PATTERN}"
+    LogGroupName: '/aws/lambda/${self:service}-${self:provider.stage}-<your-function-name>'
+```
+
+Filter pattern suggestion (ignores default Lambda logs): `"-START -END -REPORT"`. Or leave an empty string for receiving all logs.
 
 # Slack configuration
 
