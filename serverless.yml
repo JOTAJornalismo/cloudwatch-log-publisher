@@ -25,7 +25,7 @@ resources:
       DependsOn:
         - HandlerLambdaFunction
       Properties:
-        FunctionName: !Sub "${AWS::StackName}-log-publisher"
+        FunctionName: !Sub "${AWS::StackName}-handler"
         Action: lambda:InvokeFunction
         Principal: logs.amazonaws.com
 
