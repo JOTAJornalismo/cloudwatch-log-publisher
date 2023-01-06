@@ -12,8 +12,8 @@ custom:
     dockerizePip: true
 
 functions:
-  tag-publisher:
-    handler: cloudwatch_log_publisher.handler.receive_log
+  handler:
+    handler: cloudwatch_log_publisher.handler.handle_log
     environment:
       SLACK_BOT_TOKEN: ${env:SLACK_BOT_TOKEN}
       SLACK_CHANNEL: ${env:SLACK_CHANNEL}
@@ -23,9 +23,9 @@ resources:
     CWLambdaPermission:
       Type: AWS::Lambda::Permission
       DependsOn:
-        - TagDashpublisherLambdaFunction
+        - HandlerLambdaFunction
       Properties:
-        FunctionName: !Sub "${AWS::StackName}-tag-publisher"
+        FunctionName: !Sub "${AWS::StackName}-handler"
         Action: lambda:InvokeFunction
         Principal: logs.amazonaws.com
 
