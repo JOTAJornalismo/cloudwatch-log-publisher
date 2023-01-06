@@ -13,9 +13,9 @@ class HandlerTests(unittest.TestCase):
     def test_receive_log(self, mock_post_message):
         handler.SLACK_CHANNEL = 'testing'
 
-        handler.receive_log(SAMPLE_EVENT)
+        handler.handle_log(SAMPLE_EVENT)
 
         mock_post_message.assert_called_with(
             channel=handler.SLACK_CHANNEL,
-            text='*Downloading started* | /aws/lambda/ta-alert-dev-b3-history'
+            text='ta-alert-dev-b3-history ```START RequestId: 10f72fb6-ca96-4c3a-b82e-32ffd5a47050 Version: $LATEST\nDownloading started```'
         )
