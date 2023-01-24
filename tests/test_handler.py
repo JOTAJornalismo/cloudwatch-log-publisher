@@ -18,6 +18,7 @@ class HandlerTests(unittest.TestCase):
 
     def setUp(self) -> None:
         handler.SLACK_CHANNEL = 'testing'
+        handler.MAX_MESSAGE_LENGTH = 500
 
     def test_receive_short_log(self, mock_post_message):
         handler.handle_log(self._generate_aws_log(SAMPLE_LOG1))
