@@ -17,6 +17,7 @@ functions:
     environment:
       SLACK_BOT_TOKEN: ${env:SLACK_BOT_TOKEN}
       SLACK_CHANNEL: ${env:SLACK_CHANNEL}
+      MAX_MESSAGE_LENGTH: ${env:MAX_MESSAGE_LENGTH}
 
 resources:
   Resources:
