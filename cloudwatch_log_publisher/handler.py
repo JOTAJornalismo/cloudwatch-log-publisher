@@ -7,7 +7,7 @@ from slack_sdk import WebClient
 
 SLACK_BOT_TOKEN=os.getenv('SLACK_BOT_TOKEN')
 SLACK_CHANNEL=os.getenv('SLACK_CHANNEL')
-MAX_MESSAGE_LENGTH=int(os.getenv('MAX_MESSAGE_LENGTH'))
+MAX_MESSAGE_LENGTH=int(os.getenv('MAX_MESSAGE_LENGTH', 500))
 
 
 def handle_log(event, *_):
