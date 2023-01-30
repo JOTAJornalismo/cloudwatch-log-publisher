@@ -6,6 +6,8 @@ provider:
   stage: ${env:STAGE}
   region: ${env:AWS_REGION}
   runtime: python3.9
+  logRetentionInDays: 14
+  memorySize: 128
 
 custom:
   pythonRequirements:
