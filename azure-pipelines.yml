@@ -25,4 +25,5 @@ stages:
         steps:
           - script: |
               npm install
-              $(npm bin)/serverless deploy
+              export PATH=$PWD/node_modules/.bin:$PATH
+              serverless deploy
