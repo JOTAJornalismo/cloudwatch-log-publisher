@@ -2,6 +2,7 @@ import base64
 import gzip
 import json
 import os
+from hashlib import md5
 
 from slack_sdk import WebClient
 
@@ -17,10 +18,18 @@ def handle_log(event, *_):
 
     client = WebClient(token=SLACK_BOT_TOKEN)
 
-    message = '\n'.join([log['message'].strip() for log in log_data['logEvents']])
+    message = log_message = '\n'.join([log['message'].strip() for log in log_data['logEvents']])
 
-    if len(message) > MAX_MESSAGE_LENGTH:
-        message = f'{message[:MAX_MESSAGE_LENGTH]}...'
+    if long_message := len(log_message) > MAX_MESSAGE_LENGTH:
+        message = f'{log_message[:MAX_MESSAGE_LENGTH]}...'
 
-    client.chat_postMessage(channel=SLACK_CHANNEL,
-                            text=f"{log_data['logGroup'].split('/')[-1]} ```{message}```")
+    response = client.chat_postMessage(channel=SLACK_CHANNEL,
+                                       text=f"{log_data['logGroup'].split('/')[-1]} ```{message}```")
+
+    if long_message:
+        filename = f'/tmp/{md5(log_message.encode()).hexdigest()}.log'
+        with open(filename, 'w') as log_file:
+            log_file.write(log_message)
+
+        client.files_upload(channels=SLACK_CHANNEL, file=filename, thread_ts=response['ts'])
+
