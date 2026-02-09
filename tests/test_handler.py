@@ -13,7 +13,7 @@ SAMPLE_LOG2 = read_log_file('tests/test-files/sample2.log')
 LOG_GROUP_NAME = 'sample-log-group'
 
 
-@mock.patch('slack_sdk.WebClient.files_upload')
+@mock.patch('slack_sdk.WebClient.files_upload_v2')
 @mock.patch('slack_sdk.WebClient.chat_postMessage')
 class HandlerTests(unittest.TestCase):
 

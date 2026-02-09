@@ -6,9 +6,9 @@ from hashlib import md5
 
 from slack_sdk import WebClient
 
-SLACK_BOT_TOKEN=os.getenv('SLACK_BOT_TOKEN')
-SLACK_CHANNEL=os.getenv('SLACK_CHANNEL')
-MAX_MESSAGE_LENGTH=int(os.getenv('MAX_MESSAGE_LENGTH', 500))
+SLACK_BOT_TOKEN = os.getenv('SLACK_BOT_TOKEN')
+SLACK_CHANNEL = os.getenv('SLACK_CHANNEL')
+MAX_MESSAGE_LENGTH = int(os.getenv('MAX_MESSAGE_LENGTH', 500))
 
 
 def handle_log(event, *_):
@@ -31,5 +31,4 @@ def handle_log(event, *_):
         with open(filename, 'w') as log_file:
             log_file.write(log_message)
 
-        client.files_upload(channels=SLACK_CHANNEL, file=filename, thread_ts=response['ts'])
-
+        client.files_upload_v2(channel=SLACK_CHANNEL, file=filename, thread_ts=response['ts'])
